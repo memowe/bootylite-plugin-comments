@@ -1,0 +1,48 @@
+    <div class="article">
+%   if ($single) {
+        <h1><%= $article->meta->{title} %></h1>
+%   } else {
+        <h2><a href="<%= url_for 'article', article_url => $article->url %>">
+                <%= $article->meta->{title} =%>
+        </a></h2>
+%   }
+        <div class="meta">
+            <span class="time"><%= date $article %></span>,
+            <span class="tags">Tags:
+%       foreach my $tag (@{$article->meta->{tags} // []}) {
+                <a href="<%= url_for 'tag', tag => $tag %>"><%= $tag %></a>
+%       }
+            </span>,
+            <span class="comment_count"><a href="<%= url_for 'article', article_url => $article->url %>#comments">
+                Comments: <%= $article->comment_count %>
+            </span>
+%   if ($single) {
+%       if ($article->prev) {
+            <br><span class="prev_article">Previous: <a href="
+                <%= url_for 'article', article_url => $article->prev->url =%>
+            "><%= $article->prev->meta->{title} %></a></span>
+%       }
+%       if ($article->next) {
+            <br><span class="next_article">Next: <a href="
+                <%= url_for 'article', article_url => $article->next->url =%>
+            "><%= $article->next->meta->{title} %></a></span>
+%       }
+%   }
+        </div>
+%   if ($single) {
+%       if ($article->second) {
+        <div class="teaser"><%== first2html $article %></div>
+        <div id="content"><%== second2html $article %></div>
+%       } else {
+        <div id="content"><%== first2html $article %></div>
+%       }
+%   } else {
+        <div class="teaser"><%== first2html $article %></div>
+%       if ($article->second) {
+        <p><a href="<%= url_for 'article', article_url => $article->url %>">
+            <%= $article->separator // config 'separator' =%>
+        </a></p>
+%       }
+%   }
+    </div>
+

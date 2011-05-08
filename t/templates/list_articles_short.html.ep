@@ -1,0 +1,24 @@
+<ul class="articles">
+% foreach my $article (@$articles) {
+%   my $url = url_for 'article', article_url => $article->url;
+    <li>
+        <strong><a href="<%= $url %>">
+            <%= $article->meta->{title} =%>
+        </a></strong><br>
+        <span class="meta">
+            <span class="time"><%= date $article %></span>,
+            <span class="tags">Tags:
+%   foreach my $tag (@{$article->meta->{tags} // []}) {
+                <a href="<%= url_for 'tag', tag => $tag %>"><%= $tag %></a>
+%   }
+            </span>,
+            <span class="comments">
+                <a href="<%= url_for 'article', article_url => $article->url %>#comments">
+                    Comments: <%= $article->comment_count %>
+                </a>
+            </span>
+        </span>
+    </li>
+% }
+</ul>
+

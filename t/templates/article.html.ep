@@ -1,0 +1,27 @@
+% layout 'bootyblack';
+% title config('name') . ' - ' . $article->meta->{title};
+%= include 'show_article', article => $article, single => 1
+
+%#---------------------------------------------------------
+<h2>Comments</h2>
+<div id="comments">
+% if (flash 'comment_saved') {
+    <p id="message">Thanks! Comment saved!</p>
+% }
+% foreach my $comment (@{$article->comments}) {
+    <div class="comment">
+        <p class="name"><%= $comment->meta->{name} %></p>
+        <%== $comment->html %>
+    </div>
+% }
+</div>
+%#---------------------------------------------------------
+<%= form_for post_comment => (method => 'post') => begin %>
+    <p>Add your comment:</p>
+    <p>Name: <%= input_tag 'name' %></p>
+    <p>Mail: <%= input_tag 'mail' %> (used for Gravatar pics only)</p>
+    <%= text_area comment => cols => 60 => rows => 5 %>
+    <p><%= submit_button 'Submit comment' %></p>
+    <%= hidden_field article_url => $article->url %>
+<% end %>
+%#---------------------------------------------------------

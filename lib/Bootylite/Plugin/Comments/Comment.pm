@@ -80,7 +80,7 @@ sub _build_and_inject_content_data {
 
     # extract and kill meta data
     my %meta        = ();
-    $meta{lc $1}    = $2 while $raw =~ s/^(\w+):\s*(.*)\n+//;
+    $meta{lc $1}    = $2 while $raw =~ s/^(\w+):\s*(.*)\n//;
 
     # render content
     my $html = $self->render_cb->($raw);

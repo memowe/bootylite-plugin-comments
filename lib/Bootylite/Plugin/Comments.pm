@@ -4,6 +4,7 @@ use Mojo::Base 'Bootylite::Plugin';
 use Bootylite::Plugin::Comments::Comment;
 use Bootylite::Article;
 use Mojo::ByteStream 'b';
+use File::Spec::Functions 'splitpath';
 
 has comments_dir    => sub { die 'no comments directory given' };
 has encoding        => 'utf-8';
@@ -160,9 +161,12 @@ sub comment_feed {
     $feed .= '<link rel="self" href="' . $feed_url . '"/>';
     foreach my $comm (@comments) {
         my $aurl = $comm->article_url;
+        my $host = $c->req->url->to_abs->host;
+        my $date = $c->strftime('%Y-%m-%d', localtime $comm->time);
+        my (undef, undef, $fn) = splitpath $comm->filename;
+        my $id   = "tag:$host,$date:$aurl/$fn";
         my $url  = $c->url_for('article', article_url => $aurl)->to_abs;
-        $feed .= '<entry>';
-        $feed .= '<id>' . $url->to_abs . '#comments</id>';
+        $feed .= '<entry><id>' . $id . '</id>';
         $feed .= '<link rel="alternate" href="' . $url . '#comments"/>';
         $feed .= '<title type="html">Comment from ';
         $feed .= b($comm->meta->{name})->xml_escape . ', ' . $c->date($comm);

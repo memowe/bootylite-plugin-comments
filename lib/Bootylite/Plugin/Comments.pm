@@ -153,8 +153,8 @@ sub comment_feed {
     my $feed_url = $c->url_for('comment_feed', format => 'xml')->to_abs;
     my $feed = '<?xml version="1.0" encoding="'.$c->config('encoding').'"?>';
     $feed .= '<feed xmlns="http://www.w3.org/2005/Atom">';
-    $feed .= '<id>' . $feed_url . '</id>';
-    $feed .= '<title>' . $c->config('name') . ' comment feed</title>';
+    $feed .= '<id>' . $feed_url . '</id><title type="html">';
+    $feed .= b($c->config('name'))->html_escape . ' comment feed</title>';
     $feed .= '<updated>' . $c->feed_date($comments[-1]) . '</updated>';
     $feed .= '<link rel="self" href="' . $feed_url . '"/>';
     foreach my $comm (@comments) {
@@ -164,10 +164,9 @@ sub comment_feed {
         $feed .= '<entry>';
         $feed .= '<id>' . $url->to_abs . '#comments</id>';
         $feed .= '<link rel="alternate" href="' . $url . '#comments"/>';
-        $feed .= '<title>'
-                . 'Comment from ' . $comm->meta->{name} . ', '
-                . $c->date($comm) . '</title>';
-        $feed .= '<updated>' . $c->feed_date($comm) . '</updated>';
+        $feed .= '<title type="html">Comment from ';
+        $feed .= b($comm->meta->{name})->html_escape . ', ' . $c->date($comm);
+        $feed .= '</title><updated>' . $c->feed_date($comm) . '</updated>';
         $feed .= '<author><name>' . $comm->meta->{name} . '</name></author>';
         $feed .= '<content type="html">' . $html . '</content>';
         $feed .= '</entry>';

@@ -101,6 +101,7 @@ sub post_comment {
     my $ip          = $c->tx->remote_address;
     my $comment     = $c->param('comment');
     s/[\r\n]+/ /g for $name, $mail;
+    s/\r\n/\n/g for $comment;
 
     # create a file name
     my ($sec, $min, $hour, $day, $m, $y) = localtime;

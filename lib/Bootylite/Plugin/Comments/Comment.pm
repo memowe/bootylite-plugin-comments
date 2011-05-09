@@ -23,6 +23,7 @@ sub _default_render {
     $str = b($str)->html_escape;
 
     # line break cleanup
+    $str =~ s/\r\n/\n/g;
     $str =~ s/^\n+//;
     $str =~ s/\n*$/\n\n/;
     $str =~ s/\n\n+/\n\n/;

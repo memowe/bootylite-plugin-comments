@@ -92,6 +92,11 @@ sub _build_and_inject_content_data {
 sub save {
     my $self = shift;
 
+    # prepare directory
+    my ($volume, $path, undef) = splitpath $self->filename;
+    my $dir = "$volume$path";
+    mkdir $dir unless -e $dir;
+
     # preparation
     my $mode = sprintf '>:encoding(%s)', $self->encoding;
     open my $cfh, $mode, $self->filename or die $!;

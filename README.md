@@ -92,7 +92,7 @@ The comments are now available from `Bootylite::Article` objects with the
 following methods, but in most cases you need them only in the templates:
 
 * **comment_count** - the number of comments for this article
-* **comments** - an arrayhef of `Bootylite::Plugin::Comments::Comment`
+* **comments** - an arrayref of `Bootylite::Plugin::Comments::Comment`
     objects. These objects have the following goodies for you:
     - **filename** - the absolute path of the corresponding file
     - **time** - the time this comment was created as a unix timestamp

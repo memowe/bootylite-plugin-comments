@@ -117,7 +117,12 @@ The following templates need updates:
         % }
         % foreach my $comment (@{$article->comments}) {
             <div class="comment">
-                <p class="name"><%= $comment->meta->{name} %></p>
+                <p class="name">
+                    % if ( $comment->meta->{url} ) {
+                        <a href="<%== $comment->meta->{url} %>"><%== $comment->meta->{name} %></a>
+                    % } else {
+                        <%= $comment->meta->{name} %></p>
+                    % }
                 <%== $comment->html %>
             </div>
         % }

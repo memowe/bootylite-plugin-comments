@@ -13,7 +13,7 @@ CONFIGURATION
 In your `bootylite.conf`:
 
     plugins => {
-        comments => {
+        Comments => {
             comments_dir => app->home->rel_dir('comments'),
         },
     },

@@ -142,7 +142,7 @@ The following templates need updates:
 * **list_articles_short.html.ep** - this template is used for the archive's
     article lists. You want to add the comment count for each article:
 
-        <span class="comments">
+        <span class="comment-count">
             <a href="<%= url_for 'article', article_url => $article->url %>#comments">
                 Comments: <%= $article->comment_count %>
             </a>

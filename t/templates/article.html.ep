@@ -1,7 +1,6 @@
 % layout 'bootyblack';
 % title config('name') . ' - ' . $article->meta->{title};
 %= include 'show_article', article => $article, single => 1
-
 %#---------------------------------------------------------
 <h2>Comments</h2>
 <div id="comments">

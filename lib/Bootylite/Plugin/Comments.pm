@@ -136,7 +136,7 @@ EOF
     $c->flash(comment_saved => 1);
     $self->refresh($c);
     my $url = $c->url_for('article', article_url => $article_url);
-    $c->redirect_to($url . '#comments');
+    $c->redirect_to($url->fragment('comments'));
 }
 
 # a feed of all comments

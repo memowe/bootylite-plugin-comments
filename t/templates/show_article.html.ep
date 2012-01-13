@@ -1,40 +1,31 @@
-    <div class="article">
+<div class="article">
 %   if ($single) {
-        <h1><%= $article->meta->{title} %></h1>
+    <h1><%= $article->meta->{title} %></h1>
 %   } else {
-        <h2><a href="<%= url_for 'article', article_url => $article->url %>">
-                <%= $article->meta->{title} =%>
-        </a></h2>
+    <h2><a href="<%= url_for 'article', article_url => $article->url %>">
+            <%= $article->meta->{title} =%>
+    </a></h2>
 %   }
-        <div class="meta">
-            <span class="time"><%= date $article %></span>,
-            <span class="tags">Tags:
-%       foreach my $tag (@{$article->meta->{tags} // []}) {
-                <a href="<%= url_for 'tag', tag => $tag %>"><%= $tag %></a>
-%       }
-            </span>,
-            <span class="comment_count"><a href="<%= url_for 'article', article_url => $article->url %>#comments">
+    <p class="meta">
+        <span class="time"><%= date $article %></span>,
+        <span class="tags">Tags:
+%   foreach my $tag (@{$article->meta->{tags} // []}) {
+            <a href="<%= url_for 'tag', tag => $tag %>"><%= $tag %></a>
+%   }
+        </span>
+        <span class="comment-count">
+            <a href="<%= url_for 'article', article_url => $article->url %>#comments">
                 Comments: <%= $article->comment_count %>
-            </span>
-%   if ($single) {
-%       if ($article->prev) {
-            <br><span class="prev_article">Previous: <a href="
-                <%= url_for 'article', article_url => $article->prev->url =%>
-            "><%= $article->prev->meta->{title} %></a></span>
-%       }
-%       if ($article->next) {
-            <br><span class="next_article">Next: <a href="
-                <%= url_for 'article', article_url => $article->next->url =%>
-            "><%= $article->next->meta->{title} %></a></span>
-%       }
-%   }
-        </div>
+            </a>
+        </span>
+    </p>
+    <div class="article-content">
 %   if ($single) {
 %       if ($article->second) {
         <div class="teaser"><%== first2html $article %></div>
-        <div id="content"><%== second2html $article %></div>
+        <div class="content"><%== second2html $article %></div>
 %       } else {
-        <div id="content"><%== first2html $article %></div>
+        <div class="content"><%== first2html $article %></div>
 %       }
 %   } else {
         <div class="teaser"><%== first2html $article %></div>
@@ -44,5 +35,17 @@
         </a></p>
 %       }
 %   }
-    </div>
+    </div><!-- article-content -->
+%   if ($single) {
+        <div class="pager">
+%       if ($article->prev) {
+            <p class="prev_article meta">Previous: <%= link_to article => {article_url => $article->prev->url} => begin %><%= $article->prev->meta->{title} %><% end %></p>
+%       }
+%       if ($article->next) {
+            <p class="next_article meta">Next: <%= link_to article => {article_url => $article->next->url} => begin %><%= $article->next->meta->{title} %><% end %></p>
+%       }
+        </div>
+%   }
+
+</div><!-- article -->
 

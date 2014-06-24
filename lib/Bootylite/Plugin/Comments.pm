@@ -99,6 +99,7 @@ sub post_comment {
     my $article_url = $c->param('article_url');
     my $name        = $c->param('name') // 'Anonymous';
     my $mail        = $c->param('mail') // '';
+    my $url_author  = $c->param('url') // '';
     my $ip          = $c->tx->remote_address;
     my $comment     = $c->param('comment');
     s/[\r\n]+/ /g for $name, $mail;
@@ -117,9 +118,10 @@ sub post_comment {
 
     # create raw_content
     my $hidden      = $self->moderated ? '1' : '0';
-    my $raw_content = sprintf <<'EOF', $name, $mail, $ip, $hidden, $comment;
+    my $raw_content = sprintf <<'EOF', $name, $mail, $url_author, $ip, $hidden, $comment;
 Name: %s
 Mail: %s
+URL: %s
 IP: %s
 HIDDEN: %s
 
